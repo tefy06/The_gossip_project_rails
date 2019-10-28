@@ -6,20 +6,36 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-require 'faker'
-City.destroy_all
-User.destroy_all
-
-city_creation = []
-
-for i in 0 ... 10 do
-	city_creation[i] = City.create(name: Faker::Address.city, zip_code: Faker::Address.zip_code)
+#City.destroy_all
+#Gossip.destroy_all
+#User.destroy_all
+#GossipAndTag.destroy_all
+#Tag.destroy_all
+#PrivateMessage.destroy_all
+city = []
+user = []
+gossip = []
+tag_ol = Tag.create(title: "rererzez")
+for i in 0 ... 10
+	city[i] = City.create(name: "Tana #{i}", zip_code: "1A2BC#{i}")
 end
 
-for i in 0 ... 10 do
-	user_generator = User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, descritpion: Faker::Lorem.paragraph, email: Faker::Internet.free_email, age: Faker::Number.between(from: 18, to: 65), city: city_creation[i])
+
+user_1 = User.create(first_name: "Nom", last_name: "Prénom", description: "Néant", email: "user_1@user_1.com", age: 10)
+
+user_2 = User.create(first_name: "Nom_2", last_name: "Prénom_2", description: "Néant_2", email: "user_2@user_2.com", age: 10)
+for i in 0 ... 10
+	user[i] = User.create(first_name: "Nom #{i}", last_name: "Prénom #{i}", description: "Néant #{i}", email: "user_#{i}@user_#{i}.com", age: i, city: city[i])
 end
-	
-20.times do
-	create_gossip = Gossip.create(title: Faker::Book.title, content: Faker::Book.publisher)
+
+gossip_tag = Gossip.create(title: "Zany", content: "Zavatra", user: user_1)
+
+for i in 0 ... 10
+	gossip[i] = Gossip.create(title: "Gossip #{i}", content: "This is a new gossip #{i}", user: user[i])
 end
+
+tags_joined = GossipAndTag.create(gossip: gossip_tag, tag: tag_ol)
+
+pm = PrivateMessage.create(sender: user_1, recipient: user_1)
+
+mp = PrivateMessage.create(sender:user[2], recipient: user[3])
